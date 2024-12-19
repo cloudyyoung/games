@@ -44,7 +44,7 @@ export const App = () => {
           <div className="space-y-6 p-6">
             <div className="text-2xl text-center">Queens</div>
 
-            <div className="grid grid-cols-10 gap-0 border-2 border-zinc-950">
+            <div className="grid grid-cols-10 gap-0 border-2 border-zinc-950 dark:border-zinc-400">
               {
                 slots.map((slot) => (
                   <Slot {...slot} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
@@ -92,7 +92,7 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, onCli
   return (
     <div
       className={clsx(
-        "aspect-square border-solid border-zinc-600 border-[0.5px] flex justify-center items-center cursor-pointer",
+        "aspect-square border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer",
         bgColor,
         disabled && 'pointer-events-none',
       )}
