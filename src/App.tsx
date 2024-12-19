@@ -99,7 +99,7 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, onCli
       onClick={onClick}
     >
       <span className={clsx(
-        'material-symbols-sharp text-zinc-900',
+        'material-symbols-sharp dark:text-zinc-900',
         (!isQueen && isCrossed) && 'text-zinc-600',
         (isQueen && isCrossed) && 'text-red-600 dark:text-red-700',
         (isQueen && isConflicted) && 'text-red-600 dark:text-red-700',
