@@ -39,9 +39,9 @@ export const App = () => {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto flex justify-center items-center h-screen text-zinc-950 dark:text-white p-6">
+      <div className="max-w-2xl mx-auto flex justify-center items-center h-screen text-zinc-950 dark:text-white p-2 sm:p-6">
         <div className="h-fit w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
-          <div className="space-y-6 p-6">
+          <div className="space-y-4 sm:space-y-6 px-2 p-6 sm:px-6">
             <div className="text-2xl text-center">Queens</div>
 
             <div className="grid grid-cols-10 gap-0 border-2 border-zinc-950 dark:border-zinc-400">
