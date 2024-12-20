@@ -27,7 +27,7 @@ export const App = () => {
     setSlots([...slots])
   }
 
-  const onClear = () => {
+  const onReset = () => {
     setSlots(slots.map((slot) => ({ ...slot, isQueen: false, isCrossed: false, isConflicted: false })))
     setSatisfied(false)
   }
@@ -39,25 +39,33 @@ export const App = () => {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto flex justify-center items-center h-screen text-zinc-950 dark:text-white p-2 sm:p-6">
+      <div className="max-w-2xl mx-auto flex justify-center items-center h-screen text-zinc-950 dark:text-white p-1 sm:p-6">
         <div className="h-fit w-full space-y-6">
-          <div className="text-2xl text-center">Queens</div>
+          <div className="text-4xl font-extrabold text-center -mt-[5%]">Queens</div>
 
-          <div className="rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
-            <div className="p-2 sm:p-6">
-              <div className="grid grid-cols-10 gap-0 border-2 border-zinc-950 dark:border-zinc-400">
-                {
-                  slots.map((slot) => (
-                    <Slot {...slot} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
-                  ))
-                }
+          <div className="bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+            <div className="p-1.5 sm:p-6">
+              <div className="relative border-4 border-zinc-950 dark:border-zinc-400">
+                <div className="grid grid-cols-10 gap-0">
+                  {
+                    slots.map((slot) => (
+                      <Slot {...slot} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
+                    ))
+                  }
+                </div>
+
+                <div className={clsx("absolute top-0 right-0 bottom-0 left-0 flex flex-col justify-center items-center gap-4 text-2xl bg-white/70", satisfied ? "visible" : "hidden")}>
+                  <div className="font-medium italic text-3xl">Solved!</div>
+                </div>
+
               </div>
             </div>
+
           </div>
 
           <div className="flex justify-center space-x-4">
-            <Button onClick={onClear} disabled={satisfied}>Clear</Button>
-            <Button onClick={onNewGame}>New game</Button>
+            {!satisfied && <Button onClick={onReset} outline>Reset</Button>}
+            {satisfied && <Button onClick={onNewGame}>New Game</Button>}
           </div>
 
         </div>
@@ -115,23 +123,23 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, onCli
 
 const REGION_COLORS = [
   "bg-zinc-50 dark:bg-zinc-300",
-  "bg-red-100 dark:bg-red-300",
-  "bg-orange-100 dark:bg-orange-300",
-  "bg-amber-100 dark:bg-amber-300",
-  // "bg-yellow-100 dark:bg-yellow-300",
-  "bg-lime-100 dark:bg-lime-300",
-  // "bg-green-100 dark:bg-green-300",
-  "bg-emerald-100 dark:bg-emerald-300",
-  "bg-teal-100 dark:bg-teal-300",
-  "bg-cyan-100 dark:bg-cyan-300",
-  "bg-sky-100 dark:bg-sky-300",
-  // "bg-blue-100 dark:bg-blue-300",
-  "bg-indigo-100 dark:bg-indigo-300",
-  "bg-violet-100 dark:bg-violet-300",
-  // "bg-purple-100 dark:bg-purple-300",
-  "bg-fuchsia-100 dark:bg-fuchsia-300",
-  "bg-pink-100 dark:bg-pink-300",
-  "bg-rose-100 dark:bg-rose-300",
+  "bg-red-200 dark:bg-red-300",
+  "bg-orange-200 dark:bg-orange-300",
+  "bg-amber-200 dark:bg-amber-300",
+  // "bg-yellow-200 dark:bg-yellow-300",
+  "bg-lime-200 dark:bg-lime-300",
+  // "bg-green-200 dark:bg-green-300",
+  "bg-emerald-200 dark:bg-emerald-300",
+  "bg-teal-200 dark:bg-teal-300",
+  "bg-cyan-200 dark:bg-cyan-300",
+  "bg-sky-200 dark:bg-sky-300",
+  // "bg-blue-200 dark:bg-blue-300",
+  "bg-indigo-200 dark:bg-indigo-300",
+  "bg-violet-200 dark:bg-violet-300",
+  // "bg-purple-200 dark:bg-purple-300",
+  "bg-fuchsia-200 dark:bg-fuchsia-300",
+  "bg-pink-200 dark:bg-pink-300",
+  "bg-rose-200 dark:bg-rose-300",
 ]
 
 const toggleCrossed = (slots: Slot[], index: number, isCrossed: boolean) => {
