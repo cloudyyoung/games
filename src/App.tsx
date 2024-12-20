@@ -128,7 +128,7 @@ const REGION_COLORS = [
   "bg-lime-200 dark:bg-lime-300",
   // "bg-green-200 dark:bg-green-300",
   "bg-emerald-200 dark:bg-emerald-300",
-  "bg-teal-200 dark:bg-teal-300",
+  // "bg-teal-200 dark:bg-teal-300",
   "bg-cyan-200 dark:bg-cyan-300",
   "bg-sky-200 dark:bg-sky-300",
   // "bg-blue-200 dark:bg-blue-300",
