@@ -36,7 +36,7 @@ const styles = {
     // White overlay on hover
     'after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay]',
     // Dark mode: `after` layer expands to cover entire button
-    'dark:after:-inset-px dark:after:rounded-lg',
+    'dark:after:-inset-px dark:after:rounded-none',
     // Disabled
     'before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none',
   ],

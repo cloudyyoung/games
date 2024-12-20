@@ -45,19 +45,14 @@ export const App = () => {
 
           <div className="bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
             <div className="p-1.5 sm:p-6">
-              <div className="relative border-4 border-zinc-950 dark:border-zinc-400">
+              <div className="border-4 border-zinc-950 dark:border-zinc-400">
                 <div className="grid grid-cols-10 gap-0">
                   {
                     slots.map((slot) => (
-                      <Slot {...slot} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
+                      <Slot {...slot} satisfied={satisfied} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
                     ))
                   }
                 </div>
-
-                <div className={clsx("absolute top-0 right-0 bottom-0 left-0 flex flex-col justify-center items-center gap-4 text-2xl bg-white/70", satisfied ? "visible" : "hidden")}>
-                  <div className="font-medium italic text-3xl">Solved!</div>
-                </div>
-
               </div>
             </div>
 
@@ -86,10 +81,11 @@ export interface Slot {
 
 export interface SlotProps extends Slot {
   disabled?: boolean
+  satisfied?: boolean
   onClick: () => void
 }
 
-export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, onClick }: SlotProps) => {
+export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, onClick }: SlotProps) => {
   let icon = null
 
   if (isQueen) {
@@ -110,12 +106,14 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, onCli
       onClick={onClick}
     >
       <span className={clsx(
-        'material-symbols-sharp dark:text-zinc-900',
+        'material-symbols-sharp dark:text-zinc-900 relative flex',
         (!isQueen && isCrossed) && 'text-zinc-600',
         (isQueen && isCrossed) && 'text-red-600 dark:text-red-700',
         (isQueen && isConflicted) && 'text-red-600 dark:text-red-700',
+        isCrossed && 'text-base',
       )}>
-        {icon}
+        {isQueen && satisfied && <div className="absolute inline-flex animate-ping text-green-800">{icon}</div>}
+        <div className="z-10">{icon}</div>
       </span>
     </div>
   )
