@@ -57,9 +57,16 @@ export const generateSlots = () => {
   }
 
   queens.forEach((queen, i) => {
-    // slots[queen].isQueen = true
+    // slots[queen].isQueen = true;
     slots[queen].region = i + 2;
     slots[queen].regionBorder = DEFAULT_REGION_BORDER;
+
+    const touchingIndices = getFourDirectionsIndices(queen);
+    const touchingSlots = touchingIndices
+      .map((index) => slots[index])
+      .filter((slot) => slot.region === 0 && slot.isQueen === false);
+    const convertSlot = _.sample(touchingSlots) as SlotType;
+    convertSlot.region = i + 2;
   });
 
   let unregionedSlots = slots.filter((slot) => slot.region === 0);
