@@ -1,16 +1,23 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Button } from "./components/button"
 import { Text } from "./components/text"
 import { Heading } from "./components/heading"
-import { SlotType } from "./types/slot"
+import { SlotsType, SlotType } from "./types/slot"
 import { checkQueensSlots, generateSlots, toggleCrossed } from "./utils/helpers"
 import { SIZE_BOARD, SIZE_N } from "./utils/constants"
 import { Slot } from "./components/slot"
+import Queen from "./components/queen"
 
 export const App = () => {
-  const [slots, setSlots] = useState<SlotType[]>(generateSlots())
+  const [slots, setSlots] = useState<SlotsType>([])
   const [satisfied, setSatisfied] = useState(false)
+
+  useEffect(() => {
+    const slots = generateSlots()
+    setSlots(slots)
+    setSatisfied(false)
+  }, [])
 
   const onClick = (slot: SlotType) => {
     const { index, isQueen: isQueenOld } = slot
@@ -75,11 +82,11 @@ export const App = () => {
 
           <div className="text-center">
             <Heading>How to play</Heading>
-            <Text>
-              <div>Each row can only have one queen.</div>
-              <div>Each column can only have one queen.</div>
-              <div>Each color region can only have one queen.</div>
-              <div>Two queens cannot touch each other, not even diagonally.</div>
+            <Text className="cursor-vertical-text">
+              <div>Each row can only have one <Queen />.</div>
+              <div>Each column can only have one <Queen />.</div>
+              <div>Each color region can only have one <Queen />.</div>
+              <div>Two <Queen /> cannot touch each other, not even diagonally.</div>
             </Text>
           </div>
         </div>

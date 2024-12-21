@@ -11,3 +11,5 @@ export interface SlotType {
     left: boolean;
   };
 }
+
+export type SlotsType = SlotType[];

@@ -40,7 +40,6 @@ export const generateSlots = () => {
     regionBorder: { top: false, right: false, bottom: false, left: false },
   }));
 
-  console.log(slots.length);
   const queens = [];
 
   let indices = Array.from({ length: SIZE_BOARD }, (_, i) => i);
