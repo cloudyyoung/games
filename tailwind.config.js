@@ -7,7 +7,7 @@ export default {
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
-      serif: ['Playfair Display', 'serif'],
+      serif: ["Roboto Slab", 'serif'],
     },
     extend: {},
   },
