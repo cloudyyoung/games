@@ -48,7 +48,6 @@ export const generateSlots = () => {
     const { queen, remainingIndices } = pickQueenSlot(indices);
     queens.push(queen);
     indices = remainingIndices;
-    if (queens.length >= 6 && _.random(1, SIZE_N) === 6) break;
   }
 
   queens.forEach((queen, i) => {
