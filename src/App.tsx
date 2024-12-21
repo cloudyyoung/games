@@ -77,6 +77,12 @@ export interface Slot {
   isCrossed: boolean
   isConflicted: boolean
   region: number
+  regionBorder: {
+    top: boolean
+    right: boolean
+    bottom: boolean
+    left: boolean
+  }
 }
 
 export interface SlotProps extends Slot {
@@ -85,7 +91,7 @@ export interface SlotProps extends Slot {
   onClick: () => void
 }
 
-export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, onClick }: SlotProps) => {
+export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, regionBorder, onClick }: SlotProps) => {
   let icon = null
 
   if (isQueen) {
@@ -99,8 +105,12 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
   return (
     <div
       className={clsx(
-        "aspect-square border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer",
+        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer",
         bgColor,
+        regionBorder.top && 'border-t-[1.5px]',
+        regionBorder.right && 'border-r-[1.5px]',
+        regionBorder.bottom && 'border-b-[1.5px]',
+        regionBorder.left && 'border-l-[1.5px]',
         disabled && 'pointer-events-none',
       )}
       onClick={onClick}
@@ -164,7 +174,10 @@ const toggleCrossed = (slots: Slot[], index: number, isCrossed: boolean) => {
 }
 
 const generateSlots = () => {
-  const slots: Slot[] = Array.from({ length: 100 }, (_, i) => ({ index: i, isQueen: false, isCrossed: false, isConflicted: false, region: 0 }))
+  const slots: Slot[] = Array.from({ length: 100 }, (_, i) => ({
+    index: i, isQueen: false, isCrossed: false, isConflicted: false, region: 0,
+    regionBorder: { top: false, right: false, bottom: false, left: false },
+  }))
   const queens = []
 
   let indices = Array.from({ length: 100 }, (_, i) => i)
@@ -178,6 +191,7 @@ const generateSlots = () => {
   queens.forEach((queen, i) => {
     // slots[queen].isQueen = true
     slots[queen].region = i + 2
+    slots[queen].regionBorder = { top: false, right: false, bottom: false, left: false, }
   })
 
   let unregionedSlots = slots.filter((slot) => slot.region === 0)
@@ -190,6 +204,29 @@ const generateSlots = () => {
 
     const region = _.max(regions) as number
     slot.region = region
+
+    const { top, right, bottom, left } = getFourDirectionsIndicesDictionary(slot.index)
+
+    if (top !== undefined) {
+      slot.regionBorder.top = region !== slots[top].region
+      slots[top].regionBorder.bottom = slot.regionBorder.top
+    }
+
+    if (right !== undefined) {
+      slot.regionBorder.right = region !== slots[right].region
+      slots[right].regionBorder.left = slot.regionBorder.right
+    }
+
+    if (bottom !== undefined) {
+      slot.regionBorder.bottom = region !== slots[bottom].region
+      slots[bottom].regionBorder.top = slot.regionBorder.bottom
+    }
+
+    if (left !== undefined) {
+      slot.regionBorder.left = region !== slots[left].region
+      slots[left].regionBorder.right = slot.regionBorder.left
+    }
+
     const remainingSlots = _.difference(unregionedSlots, [slot])
     unregionedSlots = remainingSlots
   }
@@ -254,19 +291,27 @@ const getTouchingIndices = (a: number) => {
 }
 
 const getFourDirectionsIndices = (a: number) => {
+  const dic = getFourDirectionsIndicesDictionary(a)
+  return _.values(dic).filter((index) => index !== undefined) as number[]
+}
+
+
+const getFourDirectionsIndicesDictionary = (a: number) => {
   const previousRow = Math.floor(a / 10) - 1
   const currentRow = Math.floor(a / 10)
   const nextRow = Math.floor(a / 10) + 1
 
-  const previousRowIndices = [a - 10].filter((index) => _.inRange(index, previousRow * 10, (previousRow + 1) * 10))
-  const currentRowIndices = [a - 1, a, a + 1].filter((index) => _.inRange(index, currentRow * 10, (currentRow + 1) * 10))
-  const nextRowIndices = [a + 10].filter((index) => _.inRange(index, nextRow * 10, (nextRow + 1) * 10))
+  const upIndex = a - 10
+  const downIndex = a + 10
+  const leftIndex = a - 1
+  const rightIndex = a + 1
 
-  const touchingIndices = [
-    ...previousRowIndices,
-    ...currentRowIndices,
-    ...nextRowIndices,
-  ].filter((index) => index >= 0 && index < 100)
+  const touchingIndices = {
+    top: _.inRange(upIndex, previousRow * 10, (previousRow + 1) * 10) && _.inRange(upIndex, 0, 100) ? upIndex : undefined,
+    bottom: _.inRange(downIndex, nextRow * 10, (nextRow + 1) * 10) && _.inRange(downIndex, 0, 100) ? downIndex : undefined,
+    left: _.inRange(leftIndex, currentRow * 10, (currentRow + 1) * 10) && _.inRange(leftIndex, 0, 100) ? leftIndex : undefined,
+    right: _.inRange(rightIndex, currentRow * 10, (currentRow + 1) * 10) && _.inRange(rightIndex, 0, 100) ? rightIndex : undefined,
+  }
 
   return touchingIndices
 }
