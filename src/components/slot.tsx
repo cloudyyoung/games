@@ -23,7 +23,7 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
   return (
     <div
       className={clsx(
-        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center relative",
+        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center relative overflow-hidden",
         regionColor,
         onClick && 'cursor-pointer',
         regionBorder.top && 'border-t-[1.5px]',
