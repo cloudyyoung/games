@@ -26,10 +26,10 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
         "aspect-square box-border border-solid border-opacity-80 border-[1px] flex justify-center items-center relative overflow-hidden -mt-[0.5px] -ml-[0.5px] -mb-[0.5px] -mr-[0.5px]",
         regionColor,
         onClick && 'cursor-pointer',
-        regionBorder.top && 'border-t-[1.5px]',
-        regionBorder.right && 'border-r-[1.5px]',
-        regionBorder.bottom && 'border-b-[1.5px]',
-        regionBorder.left && 'border-l-[1.5px]',
+        regionBorder.top && 'border-t-[2px]',
+        regionBorder.right && 'border-r-[2px]',
+        regionBorder.bottom && 'border-b-[2px]',
+        regionBorder.left && 'border-l-[2px]',
         disabled && 'pointer-events-none',
       )}
       onClick={onClick}
