@@ -1,7 +1,8 @@
 import _ from "lodash";
 
 import { SlotType } from "../types/slot";
-import { SIZE_N, SIZE_BOARD } from "./constants";
+import { BaseExampleConfigType, ExampleConfigType } from "../types/examples";
+import { SIZE_N, SIZE_BOARD, DEFAULT_SLOT, EXAMPLE_SIZE_N } from "./constants";
 
 export const toggleCrossed = (
   slots: SlotType[],
@@ -74,32 +75,13 @@ export const generateSlots = () => {
     const region = _.max(regions) as number;
     slot.region = region;
 
-    const { top, right, bottom, left } = getFourDirectionsIndicesDictionary(
-      slot.index
-    );
-
-    if (top !== undefined) {
-      slot.regionBorder.top = region !== slots[top].region;
-      slots[top].regionBorder.bottom = slot.regionBorder.top;
-    }
-
-    if (right !== undefined) {
-      slot.regionBorder.right = region !== slots[right].region;
-      slots[right].regionBorder.left = slot.regionBorder.right;
-    }
-
-    if (bottom !== undefined) {
-      slot.regionBorder.bottom = region !== slots[bottom].region;
-      slots[bottom].regionBorder.top = slot.regionBorder.bottom;
-    }
-
-    if (left !== undefined) {
-      slot.regionBorder.left = region !== slots[left].region;
-      slots[left].regionBorder.right = slot.regionBorder.left;
-    }
-
     const remainingSlots = _.difference(unregionedSlots, [slot]);
     unregionedSlots = remainingSlots;
+  }
+
+  for (const slot of slots) {
+    const regionBorder = getRegionBorder(slot, slots);
+    slot.regionBorder = regionBorder;
   }
 
   return slots;
@@ -190,38 +172,90 @@ export const getFourDirectionsIndices = (a: number) => {
   return _.values(dic).filter((index) => index !== undefined) as number[];
 };
 
-export const getFourDirectionsIndicesDictionary = (a: number) => {
-  const previousRow = Math.floor(a / SIZE_N) - 1;
-  const currentRow = Math.floor(a / SIZE_N);
-  const nextRow = Math.floor(a / SIZE_N) + 1;
+export const getFourDirectionsIndicesDictionary = (
+  a: number,
+  n: number = SIZE_N
+) => {
+  const size_board = n * n;
 
-  const upIndex = a - SIZE_N;
-  const downIndex = a + SIZE_N;
+  const previousRow = Math.floor(a / n) - 1;
+  const currentRow = Math.floor(a / n);
+  const nextRow = Math.floor(a / n) + 1;
+
+  const upIndex = a - n;
+  const downIndex = a + n;
   const leftIndex = a - 1;
   const rightIndex = a + 1;
 
   const touchingIndices = {
     top:
-      _.inRange(upIndex, previousRow * SIZE_N, (previousRow + 1) * SIZE_N) &&
-      _.inRange(upIndex, 0, SIZE_BOARD)
+      _.inRange(upIndex, previousRow * n, (previousRow + 1) * n) &&
+      _.inRange(upIndex, 0, size_board)
         ? upIndex
         : undefined,
     bottom:
-      _.inRange(downIndex, nextRow * SIZE_N, (nextRow + 1) * SIZE_N) &&
-      _.inRange(downIndex, 0, SIZE_BOARD)
+      _.inRange(downIndex, nextRow * n, (nextRow + 1) * n) &&
+      _.inRange(downIndex, 0, size_board)
         ? downIndex
         : undefined,
     left:
-      _.inRange(leftIndex, currentRow * SIZE_N, (currentRow + 1) * SIZE_N) &&
-      _.inRange(leftIndex, 0, SIZE_BOARD)
+      _.inRange(leftIndex, currentRow * n, (currentRow + 1) * n) &&
+      _.inRange(leftIndex, 0, size_board)
         ? leftIndex
         : undefined,
     right:
-      _.inRange(rightIndex, currentRow * SIZE_N, (currentRow + 1) * SIZE_N) &&
-      _.inRange(rightIndex, 0, SIZE_BOARD)
+      _.inRange(rightIndex, currentRow * n, (currentRow + 1) * n) &&
+      _.inRange(rightIndex, 0, size_board)
         ? rightIndex
         : undefined,
   };
 
   return touchingIndices;
+};
+
+export const getRegionBorder = (
+  slot: SlotType,
+  slots: Pick<SlotType, "region" | "regionBorder">[],
+  n: number = SIZE_N
+) => {
+  const { top, right, bottom, left } = getFourDirectionsIndicesDictionary(
+    slot.index,
+    n
+  );
+  console.log(slots, top, right, bottom, left);
+
+  const regionBorder = {
+    top: top !== undefined && slot.region !== slots[top].region,
+    right: right !== undefined && slot.region !== slots[right].region,
+    bottom: bottom !== undefined && slot.region !== slots[bottom].region,
+    left: left !== undefined && slot.region !== slots[left].region,
+  };
+
+  return regionBorder;
+};
+
+export const getExampleGrid = (
+  baseConfig: BaseExampleConfigType,
+  exampleConfig: ExampleConfigType
+) => {
+  return Array.from({ length: 25 }, (_, i) => {
+    let slot = { ...DEFAULT_SLOT, index: i };
+
+    if (i in baseConfig) {
+      slot = { ...slot, ...baseConfig[i] };
+    }
+
+    if (i in exampleConfig) {
+      slot = { ...slot, ...exampleConfig[i] };
+    }
+
+    const regionBorder = getRegionBorder(
+      slot,
+      Object.values(baseConfig),
+      EXAMPLE_SIZE_N
+    );
+    slot = { ...slot, regionBorder };
+
+    return slot;
+  });
 };

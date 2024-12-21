@@ -4,6 +4,9 @@ import { SlotType } from "../types/slot";
 export const SIZE_N = 9;
 export const SIZE_BOARD = SIZE_N * SIZE_N;
 
+export const EXAMPLE_SIZE_N = 5;
+export const EXAMPLE_SIZE_BOARD = EXAMPLE_SIZE_N * EXAMPLE_SIZE_N;
+
 export const REGION_COLORS = _.sortBy([
   // "bg-red-200 dark:bg-red-300 text-red-950 dark:text-red-950 border-red-600 dark:border-red-500",
   "bg-orange-200 dark:bg-orange-300 text-orange-950 dark:text-orange-950 border-orange-900 dark:border-orange-500",
@@ -24,27 +27,6 @@ export const REGION_COLORS = _.sortBy([
   "bg-rose-200 dark:bg-rose-300 text-rose-950 dark:text-rose-950 border-rose-900 dark:border-rose-500",
 ]);
 
-export type ExampleConfigType = { [index: number]: Partial<SlotType> };
-
-const getExampleGrid = (
-  baseConfig: ExampleConfigType,
-  exampleConfig: ExampleConfigType
-) => {
-  return Array.from({ length: 25 }, (_, i) => {
-    let slot = { ...DEFAULT_SLOT, index: i };
-
-    if (i in baseConfig) {
-      slot = { ...slot, ...baseConfig[i] };
-    }
-
-    if (i in exampleConfig) {
-      slot = { ...slot, ...exampleConfig[i] };
-    }
-
-    return slot;
-  });
-};
-
 export const DEFAULT_REGION_BORDER = {
   top: false,
   right: false,
@@ -60,81 +42,3 @@ export const DEFAULT_SLOT: SlotType = {
   region: 0,
   regionBorder: DEFAULT_REGION_BORDER,
 };
-
-const BASE_EXAMPLE_CONFIG: ExampleConfigType = {
-  0: { region: 1 },
-  1: { region: 2 },
-  2: { region: 2 },
-  3: { region: 2 },
-  4: { region: 2 },
-
-  5: { region: 3 },
-  6: { region: 4 },
-  7: { region: 3 },
-  8: { region: 5 },
-  9: { region: 3 },
-
-  10: { region: 3 },
-  11: { region: 4 },
-  12: { region: 3 },
-  13: { region: 3 },
-  14: { region: 3 },
-
-  15: { region: 3 },
-  16: { region: 3 },
-  17: { region: 3 },
-  18: { region: 6 },
-  19: { region: 6 },
-
-  20: { region: 3 },
-  21: { region: 3 },
-  22: { region: 3 },
-  23: { region: 3 },
-  24: { region: 3 },
-};
-
-const EACH_ROW_EXAMPLE_CONFIG: ExampleConfigType = {
-  0: { isQueen: true },
-  1: { isCrossed: true },
-  2: { isCrossed: true },
-  3: { isCrossed: true },
-  4: { isCrossed: true },
-};
-
-export const EACH_COLUMN_EXAMPLE_CONFIG: ExampleConfigType = {
-  0: { isQueen: true },
-  5: { isCrossed: true },
-  10: { isCrossed: true },
-  15: { isCrossed: true },
-  20: { isCrossed: true },
-};
-
-export const EACH_COLOR_REGION_EXAMPLE_CONFIG: ExampleConfigType = {
-  13: { isQueen: true, isConflicted: true },
-  22: { isQueen: true, isConflicted: true },
-};
-
-export const QUEENS_TOUCHING_EXAMPLE_CONFIG: ExampleConfigType = {
-  8: { isQueen: true, isCrossed: true },
-  12: { isQueen: true, isCrossed: true },
-};
-
-export const EACH_ROW_EXAMPLE = getExampleGrid(
-  BASE_EXAMPLE_CONFIG,
-  EACH_ROW_EXAMPLE_CONFIG
-);
-
-export const EACH_COLUMN_EXAMPLE = getExampleGrid(
-  BASE_EXAMPLE_CONFIG,
-  EACH_COLUMN_EXAMPLE_CONFIG
-);
-
-export const EACH_COLOR_REGION_EXAMPLE = getExampleGrid(
-  BASE_EXAMPLE_CONFIG,
-  EACH_COLOR_REGION_EXAMPLE_CONFIG
-);
-
-export const QUEENS_TOUCHING_EXAMPLE = getExampleGrid(
-  BASE_EXAMPLE_CONFIG,
-  QUEENS_TOUCHING_EXAMPLE_CONFIG
-);

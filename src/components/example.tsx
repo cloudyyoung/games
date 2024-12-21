@@ -7,12 +7,14 @@ export interface ExampleGridProps {
 
 const ExampleGrid = ({ slots }: ExampleGridProps) => {
   return (
-    <div className="grid gap-0 grid-cols-5">
-      {
-        slots.map((slot, i) => (
-          <Slot key={i} {...slot} />
-        ))
-      }
+    <div className="outline outline-[3px] outline-zinc-800 dark:outline-zinc-600">
+      <div className="grid gap-0 grid-cols-5 ">
+        {
+          slots.map((slot, i) => (
+            <Slot key={i} {...slot} />
+          ))
+        }
+      </div>
     </div>
   )
 }
