@@ -4,6 +4,9 @@ import _ from "lodash"
 
 import { Button } from "./components/button"
 
+const SIZE_N = 10
+const SIZE_BOARD = SIZE_N * SIZE_N
+
 export const App = () => {
   const [slots, setSlots] = useState<Slot[]>(generateSlots())
   const [satisfied, setSatisfied] = useState(false)
@@ -15,7 +18,7 @@ export const App = () => {
     slots[index].isQueen = isQueen
     toggleCrossed(slots, index, isQueen)
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < SIZE_BOARD; i++) {
       if (slots[i].isQueen) {
         toggleCrossed(slots, i, true)
       }
@@ -46,7 +49,7 @@ export const App = () => {
           <div className="bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
             <div className="p-1.5 sm:p-6">
               <div className="border-4 border-zinc-950 dark:border-zinc-400">
-                <div className="grid grid-cols-10 gap-0">
+                <div className={`grid gap-0`} style={{ gridTemplateColumns: `repeat(${SIZE_N}, minmax(0, 1fr)` }}>
                   {
                     slots.map((slot) => (
                       <Slot {...slot} satisfied={satisfied} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
@@ -60,7 +63,7 @@ export const App = () => {
 
           <div className="flex justify-center space-x-4">
             {!satisfied && <Button onClick={onReset} outline>Reset</Button>}
-            {satisfied && <Button onClick={onNewGame}>New Game</Button>}
+            <Button onClick={onNewGame}>New Game</Button>
           </div>
 
         </div>
@@ -105,7 +108,7 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
   return (
     <div
       className={clsx(
-        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer",
+        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer relative",
         bgColor,
         regionBorder.top && 'border-t-[1.5px]',
         regionBorder.right && 'border-r-[1.5px]',
@@ -120,9 +123,10 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
         (!isQueen && isCrossed) && 'text-zinc-600',
         (isQueen && isCrossed) && 'text-red-600 dark:text-red-700',
         (isQueen && isConflicted) && 'text-red-600 dark:text-red-700',
-        isCrossed && 'text-base',
+        isCrossed && 'text-xl',
+        isQueen && 'text-3xl',
       )}>
-        {isQueen && satisfied && <div className="absolute inline-flex animate-ping text-green-800">{icon}</div>}
+        {isQueen && satisfied && <div className="absolute inline-flex animate-ping text-green-800/50">{icon}</div>}
         <div className="z-10">{icon}</div>
       </span>
     </div>
@@ -174,18 +178,20 @@ const toggleCrossed = (slots: Slot[], index: number, isCrossed: boolean) => {
 }
 
 const generateSlots = () => {
-  const slots: Slot[] = Array.from({ length: 100 }, (_, i) => ({
+  const slots: Slot[] = Array.from({ length: SIZE_BOARD }, (_, i) => ({
     index: i, isQueen: false, isCrossed: false, isConflicted: false, region: 0,
     regionBorder: { top: false, right: false, bottom: false, left: false },
   }))
+
+  console.log(slots.length)
   const queens = []
 
-  let indices = Array.from({ length: 100 }, (_, i) => i)
+  let indices = Array.from({ length: SIZE_BOARD }, (_, i) => i)
   while (indices.length > 0) {
     const { queen, remainingIndices } = pickQueenSlot(indices)
     queens.push(queen)
     indices = remainingIndices
-    if (queens.length >= 6 && _.random(1, 10) === 6) break
+    if (queens.length >= 6 && _.random(1, SIZE_N) === 6) break
   }
 
   queens.forEach((queen, i) => {
@@ -263,29 +269,29 @@ const checkQueensSlots = (slots: Slot[]) => {
 }
 
 const getSameRowIndices = (a: number) => {
-  const row = Math.floor(a / 10)
-  return Array.from({ length: 10 }, (_, i) => row * 10 + i)
+  const row = Math.floor(a / SIZE_N)
+  return Array.from({ length: SIZE_N }, (_, i) => row * SIZE_N + i)
 }
 
 const getSameColumnIndices = (a: number) => {
-  const column = a % 10
-  return Array.from({ length: 10 }, (_, i) => i * 10 + column)
+  const column = a % SIZE_N
+  return Array.from({ length: SIZE_N }, (_, i) => i * SIZE_N + column)
 }
 
 const getTouchingIndices = (a: number) => {
-  const previousRow = Math.floor(a / 10) - 1
-  const currentRow = Math.floor(a / 10)
-  const nextRow = Math.floor(a / 10) + 1
+  const previousRow = Math.floor(a / SIZE_N) - 1
+  const currentRow = Math.floor(a / SIZE_N)
+  const nextRow = Math.floor(a / SIZE_N) + 1
 
-  const previousRowIndices = [a - 9, a - 10, a - 11].filter((index) => _.inRange(index, previousRow * 10, (previousRow + 1) * 10))
-  const currentRowIndices = [a - 1, a, a + 1].filter((index) => _.inRange(index, currentRow * 10, (currentRow + 1) * 10))
-  const nextRowIndices = [a + 9, a + 10, a + 11].filter((index) => _.inRange(index, nextRow * 10, (nextRow + 1) * 10))
+  const previousRowIndices = [a - (SIZE_N - 1), a - SIZE_N, a - (SIZE_N + 1)].filter((index) => _.inRange(index, previousRow * SIZE_N, (previousRow + 1) * SIZE_N))
+  const currentRowIndices = [a - 1, a, a + 1].filter((index) => _.inRange(index, currentRow * SIZE_N, (currentRow + 1) * SIZE_N))
+  const nextRowIndices = [a + (SIZE_N - 1), a + SIZE_N, a + (SIZE_N + 1)].filter((index) => _.inRange(index, nextRow * SIZE_N, (nextRow + 1) * SIZE_N))
 
   const touchingIndices = [
     ...previousRowIndices,
     ...currentRowIndices,
     ...nextRowIndices,
-  ].filter((index) => index >= 0 && index < 100)
+  ].filter((index) => index >= 0 && index < SIZE_BOARD)
 
   return touchingIndices
 }
@@ -297,20 +303,20 @@ const getFourDirectionsIndices = (a: number) => {
 
 
 const getFourDirectionsIndicesDictionary = (a: number) => {
-  const previousRow = Math.floor(a / 10) - 1
-  const currentRow = Math.floor(a / 10)
-  const nextRow = Math.floor(a / 10) + 1
+  const previousRow = Math.floor(a / SIZE_N) - 1
+  const currentRow = Math.floor(a / SIZE_N)
+  const nextRow = Math.floor(a / SIZE_N) + 1
 
-  const upIndex = a - 10
-  const downIndex = a + 10
+  const upIndex = a - SIZE_N
+  const downIndex = a + SIZE_N
   const leftIndex = a - 1
   const rightIndex = a + 1
 
   const touchingIndices = {
-    top: _.inRange(upIndex, previousRow * 10, (previousRow + 1) * 10) && _.inRange(upIndex, 0, 100) ? upIndex : undefined,
-    bottom: _.inRange(downIndex, nextRow * 10, (nextRow + 1) * 10) && _.inRange(downIndex, 0, 100) ? downIndex : undefined,
-    left: _.inRange(leftIndex, currentRow * 10, (currentRow + 1) * 10) && _.inRange(leftIndex, 0, 100) ? leftIndex : undefined,
-    right: _.inRange(rightIndex, currentRow * 10, (currentRow + 1) * 10) && _.inRange(rightIndex, 0, 100) ? rightIndex : undefined,
+    top: _.inRange(upIndex, previousRow * SIZE_N, (previousRow + 1) * SIZE_N) && _.inRange(upIndex, 0, SIZE_BOARD) ? upIndex : undefined,
+    bottom: _.inRange(downIndex, nextRow * SIZE_N, (nextRow + 1) * SIZE_N) && _.inRange(downIndex, 0, SIZE_BOARD) ? downIndex : undefined,
+    left: _.inRange(leftIndex, currentRow * SIZE_N, (currentRow + 1) * SIZE_N) && _.inRange(leftIndex, 0, SIZE_BOARD) ? leftIndex : undefined,
+    right: _.inRange(rightIndex, currentRow * SIZE_N, (currentRow + 1) * SIZE_N) && _.inRange(rightIndex, 0, SIZE_BOARD) ? rightIndex : undefined,
   }
 
   return touchingIndices
