@@ -9,6 +9,10 @@ export interface SlotType {
     right: boolean;
     bottom: boolean;
     left: boolean;
+    topRight: boolean;
+    bottomRight: boolean;
+    bottomLeft: boolean;
+    topLeft: boolean;
   };
 }
 

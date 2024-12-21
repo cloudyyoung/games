@@ -2,7 +2,13 @@ import _ from "lodash";
 
 import { SlotType } from "../types/slot";
 import { BaseExampleConfigType, ExampleConfigType } from "../types/examples";
-import { SIZE_N, SIZE_BOARD, DEFAULT_SLOT, EXAMPLE_SIZE_N } from "./constants";
+import {
+  SIZE_N,
+  SIZE_BOARD,
+  DEFAULT_SLOT,
+  EXAMPLE_SIZE_N,
+  DEFAULT_REGION_BORDER,
+} from "./constants";
 
 export const toggleCrossed = (
   slots: SlotType[],
@@ -38,7 +44,7 @@ export const generateSlots = () => {
     isCrossed: false,
     isConflicted: false,
     region: 0,
-    regionBorder: { top: false, right: false, bottom: false, left: false },
+    regionBorder: DEFAULT_REGION_BORDER,
   }));
 
   const queens = [];
@@ -53,12 +59,7 @@ export const generateSlots = () => {
   queens.forEach((queen, i) => {
     // slots[queen].isQueen = true
     slots[queen].region = i + 2;
-    slots[queen].regionBorder = {
-      top: false,
-      right: false,
-      bottom: false,
-      left: false,
-    };
+    slots[queen].regionBorder = DEFAULT_REGION_BORDER;
   });
 
   let unregionedSlots = slots.filter((slot) => slot.region === 0);
@@ -134,34 +135,68 @@ export const getSameColumnIndices = (a: number) => {
   return Array.from({ length: SIZE_N }, (_, i) => i * SIZE_N + column);
 };
 
-export const getTouchingIndices = (a: number) => {
-  const previousRow = Math.floor(a / SIZE_N) - 1;
-  const currentRow = Math.floor(a / SIZE_N);
-  const nextRow = Math.floor(a / SIZE_N) + 1;
+export const getTouchingIndices = (a: number, n: number = SIZE_N) => {
+  const dic = getTouchingIndicesDictionary(a, n);
+  return _.values(dic).filter((index) => index !== undefined) as number[];
+};
 
-  const previousRowIndices = [
-    a - (SIZE_N - 1),
-    a - SIZE_N,
-    a - (SIZE_N + 1),
-  ].filter((index) =>
-    _.inRange(index, previousRow * SIZE_N, (previousRow + 1) * SIZE_N)
-  );
-  const currentRowIndices = [a - 1, a, a + 1].filter((index) =>
-    _.inRange(index, currentRow * SIZE_N, (currentRow + 1) * SIZE_N)
-  );
-  const nextRowIndices = [
-    a + (SIZE_N - 1),
-    a + SIZE_N,
-    a + (SIZE_N + 1),
-  ].filter((index) =>
-    _.inRange(index, nextRow * SIZE_N, (nextRow + 1) * SIZE_N)
-  );
+export const getTouchingIndicesDictionary = (a: number, n: number = SIZE_N) => {
+  const previousRow = Math.floor(a / n) - 1;
+  const currentRow = Math.floor(a / n);
+  const nextRow = Math.floor(a / n) + 1;
 
-  const touchingIndices = [
-    ...previousRowIndices,
-    ...currentRowIndices,
-    ...nextRowIndices,
-  ].filter((index) => index >= 0 && index < SIZE_BOARD);
+  const topLeftIndex = a - n - 1;
+  const topIndex = a - n;
+  const topRightIndex = a - n + 1;
+  const leftIndex = a - 1;
+  const rightIndex = a + 1;
+  const bottomLeftIndex = a + n - 1;
+  const bottomIndex = a + n;
+  const bottomRightIndex = a + n + 1;
+
+  const touchingIndices = {
+    topLeft:
+      _.inRange(topLeftIndex, previousRow * n, (previousRow + 1) * n) &&
+      _.inRange(topLeftIndex, 0, n * n)
+        ? topLeftIndex
+        : undefined,
+    top:
+      _.inRange(topIndex, previousRow * n, (previousRow + 1) * n) &&
+      _.inRange(topIndex, 0, n * n)
+        ? topIndex
+        : undefined,
+    topRight:
+      _.inRange(topRightIndex, previousRow * n, (previousRow + 1) * n) &&
+      _.inRange(topRightIndex, 0, n * n)
+        ? topRightIndex
+        : undefined,
+    left:
+      _.inRange(leftIndex, currentRow * n, (currentRow + 1) * n) &&
+      _.inRange(leftIndex, 0, n * n)
+        ? leftIndex
+        : undefined,
+    right:
+      _.inRange(rightIndex, currentRow * n, (currentRow + 1) * n) &&
+      _.inRange(rightIndex, 0, n * n)
+        ? rightIndex
+        : undefined,
+
+    bottomLeft:
+      _.inRange(bottomLeftIndex, nextRow * n, (nextRow + 1) * n) &&
+      _.inRange(bottomLeftIndex, 0, n * n)
+        ? bottomLeftIndex
+        : undefined,
+    bottom:
+      _.inRange(bottomIndex, nextRow * n, (nextRow + 1) * n) &&
+      _.inRange(bottomIndex, 0, n * n)
+        ? bottomIndex
+        : undefined,
+    bottomRight:
+      _.inRange(bottomRightIndex, nextRow * n, (nextRow + 1) * n) &&
+      _.inRange(bottomRightIndex, 0, n * n)
+        ? bottomRightIndex
+        : undefined,
+  };
 
   return touchingIndices;
 };
@@ -217,18 +252,54 @@ export const getRegionBorder = (
   slots: Pick<SlotType, "region" | "regionBorder">[],
   n: number = SIZE_N
 ) => {
-  const { top, right, bottom, left } = getFourDirectionsIndicesDictionary(
-    slot.index,
-    n
-  );
-  console.log(slots, top, right, bottom, left);
+  const {
+    topLeft,
+    top,
+    topRight,
+    left,
+    right,
+    bottomLeft,
+    bottom,
+    bottomRight,
+  } = getTouchingIndicesDictionary(slot.index, n);
 
   const regionBorder = {
+    topLeft: topLeft !== undefined && slot.region !== slots[topLeft].region,
+    topRight: topRight !== undefined && slot.region !== slots[topRight].region,
+    bottomLeft:
+      bottomLeft !== undefined && slot.region !== slots[bottomLeft].region,
+    bottomRight:
+      bottomRight !== undefined && slot.region !== slots[bottomRight].region,
     top: top !== undefined && slot.region !== slots[top].region,
     right: right !== undefined && slot.region !== slots[right].region,
     bottom: bottom !== undefined && slot.region !== slots[bottom].region,
     left: left !== undefined && slot.region !== slots[left].region,
   };
+
+  const topLeftSlot = topLeft !== undefined ? slots[topLeft] : undefined;
+  const topRightSlot = topRight !== undefined ? slots[topRight] : undefined;
+  const bottomLeftSlot =
+    bottomLeft !== undefined ? slots[bottomLeft] : undefined;
+  const bottomRightSlot =
+    bottomRight !== undefined ? slots[bottomRight] : undefined;
+
+  if (topLeftSlot) {
+    topLeftSlot.regionBorder.bottomRight = slot.region !== topLeftSlot.region;
+  }
+
+  if (topRightSlot) {
+    topRightSlot.regionBorder.bottomLeft = slot.region !== topRightSlot.region;
+  }
+
+  if (bottomLeftSlot) {
+    bottomLeftSlot.regionBorder.topRight =
+      slot.region !== bottomLeftSlot.region;
+  }
+
+  if (bottomRightSlot) {
+    bottomRightSlot.regionBorder.topLeft =
+      slot.region !== bottomRightSlot.region;
+  }
 
   return regionBorder;
 };
