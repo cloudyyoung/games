@@ -3,6 +3,8 @@ import { useState } from "react"
 import _ from "lodash"
 
 import { Button } from "./components/button"
+import { Text } from "./components/text"
+import { Heading } from "./components/heading"
 
 const SIZE_N = 9
 const SIZE_BOARD = SIZE_N * SIZE_N
@@ -73,12 +75,13 @@ export const App = () => {
           </div>
 
           <div className="text-center">
-            <div className="text-xl font-medium italic">How to play</div>
-
-            <div>Each row can only have one queen.</div>
-            <div>Each column can only have one queen.</div>
-            <div>Each color region can only have one queen.</div>
-            <div>Two queens cannot touch each other, not even diagonally.</div>
+            <Heading>How to play</Heading>
+            <Text>
+              <div>Each row can only have one queen.</div>
+              <div>Each column can only have one queen.</div>
+              <div>Each color region can only have one queen.</div>
+              <div>Two queens cannot touch each other, not even diagonally.</div>
+            </Text>
           </div>
         </div>
       </div>
