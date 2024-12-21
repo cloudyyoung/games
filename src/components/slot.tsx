@@ -6,7 +6,7 @@ import { REGION_COLORS } from "../utils/constants"
 export interface SlotProps extends SlotType {
   disabled?: boolean
   satisfied?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, regionBorder, onClick }: SlotProps) => {
@@ -23,8 +23,9 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
   return (
     <div
       className={clsx(
-        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center cursor-pointer relative",
+        "aspect-square box-border border-solid border-zinc-600 dark:border-zinc-500 border-[0.5px] flex justify-center items-center relative",
         regionColor,
+        onClick && 'cursor-pointer',
         regionBorder.top && 'border-t-[1.5px]',
         regionBorder.right && 'border-r-[1.5px]',
         regionBorder.bottom && 'border-b-[1.5px]',
@@ -35,10 +36,10 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
     >
       <span className={clsx(
         'material-symbols-sharp relative flex',
-        (!isQueen && isCrossed) && 'opacity-70 text-xl',
+        (!isQueen && isCrossed) && 'opacity-70 text-lg sm:text-2xl',
         (isQueen && isCrossed) && 'text-red-600 dark:text-red-600',
         (isQueen && isConflicted) && 'text-red-600 dark:text-red-600',
-        isQueen && 'text-3xl',
+        isQueen && 'text-2xl sm:text-4xl',
       )}>
         {isQueen && satisfied && <div className="absolute inline-flex animate-ping opacity-40">{icon}</div>}
         <div className="z-10">{icon}</div>

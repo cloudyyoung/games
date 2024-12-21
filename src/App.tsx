@@ -5,9 +5,10 @@ import { Text } from "./components/text"
 import { Heading } from "./components/heading"
 import { SlotsType, SlotType } from "./types/slot"
 import { checkQueensSlots, generateSlots, toggleCrossed } from "./utils/helpers"
-import { SIZE_BOARD, SIZE_N } from "./utils/constants"
+import { EACH_COLOR_REGION_EXAMPLE, EACH_COLUMN_EXAMPLE, EACH_ROW_EXAMPLE, QUEENS_TOUCHING_EXAMPLE, SIZE_BOARD, SIZE_N } from "./utils/constants"
 import { Slot } from "./components/slot"
 import Queen from "./components/queen"
+import ExampleGrid from "./components/example"
 
 export const App = () => {
   const [slots, setSlots] = useState<SlotsType>([])
@@ -77,17 +78,35 @@ export const App = () => {
           </div>
 
           <div className="flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-px w-full" fill="none"><defs><pattern id=":S2:" patternUnits="userSpaceOnUse" width="16" height="1"><line className="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5" stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1" stroke-linejoin="round"></line></pattern></defs><rect width="100%" height="100%" fill="url(#:S2:)"></rect></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-px w-full" fill="none"><defs><pattern id=":S2:" patternUnits="userSpaceOnUse" width="16" height="1"><line className="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5" strokeDasharray="2 2" strokeWidth="1.5" strokeOpacity="0.1" strokeLinejoin="round"></line></pattern></defs><rect width="100%" height="100%" fill="url(#:S2:)"></rect></svg>
           </div>
 
           <div className="text-center">
             <Heading>How to play</Heading>
-            <Text className="cursor-vertical-text">
-              <div>Each row can only have one <Queen />.</div>
-              <div>Each column can only have one <Queen />.</div>
-              <div>Each color region can only have one <Queen />.</div>
-              <div>Two <Queen /> cannot touch each other, not even diagonally.</div>
-            </Text>
+            <div className="p-6">
+              <div className="grid grid-cols-2 grid-rows-2 gap-x-6 gap-y-0">
+                <div>
+                  <ExampleGrid slots={EACH_ROW_EXAMPLE} />
+                  <Text>Each row can only have one <Queen />.</Text>
+                </div>
+
+                <div>
+                  <ExampleGrid slots={EACH_COLUMN_EXAMPLE} />
+                  <Text>Each column can only have one <Queen />.</Text>
+                </div>
+
+
+                <div>
+                  <ExampleGrid slots={EACH_COLOR_REGION_EXAMPLE} />
+                  <Text>Each color region can only have one <Queen />.</Text>
+                </div>
+
+                <div>
+                  <ExampleGrid slots={QUEENS_TOUCHING_EXAMPLE} />
+                  <Text>Two <Queen /> cannot touch each other, not even diagonally.</Text>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
