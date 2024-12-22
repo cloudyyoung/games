@@ -126,10 +126,16 @@ export const checkQueensSlots = (slots: SlotType[]) => {
   const numberOfRegions = Object.keys(regions).length;
   const numberOfAllocatedRegions = Object.keys(regionsQueens).length;
 
-  const satisfied =
+  const regionSatisfied =
     Object.values(regionsQueens).every((queens) => queens.length === 1) &&
     numberOfRegions === numberOfAllocatedRegions;
-  return satisfied;
+
+  const conflictSatisfied = _.every(
+    slots,
+    (slot) => !((slot.isConflicted || slot.isCrossed) && slot.isQueen)
+  );
+
+  return regionSatisfied && conflictSatisfied;
 };
 
 export const getSameRowIndices = (a: number) => {
