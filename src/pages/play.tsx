@@ -11,14 +11,13 @@ import { Text, TextLink } from "../components/text"
 export const Play = () => {
   const [slots, setSlots] = useState<SlotsType>([])
   const [satisfied, setSatisfied] = useState(false)
-  const { elapsedTime, reset } = useElapsedTime({ isPlaying: !satisfied })
+  const [started, setStarted] = useState(false)
+  const { elapsedTime, reset } = useElapsedTime({ isPlaying: started })
   const [steps, setSteps] = useState(0)
 
   useEffect(() => {
     const slots = generateSlots()
     setSlots(slots)
-    setSatisfied(false)
-    setSteps(0)
   }, [])
 
   const onClick = (slot: SlotType) => {
@@ -38,6 +37,7 @@ export const Play = () => {
     setSatisfied(satisfied)
 
     setSlots([...slots])
+    setStarted(true)
     setSteps(steps + 1)
   }
 
@@ -51,6 +51,7 @@ export const Play = () => {
     setSatisfied(false)
     reset()
     setSteps(0)
+    setStarted(false)
   }
 
   return (
@@ -63,7 +64,7 @@ export const Play = () => {
           </div>
           <div className="flex flex-row items-center gap-1">
             <span className="material-symbols-sharp">timer</span>
-            {elapsedTime.toFixed(0)} seconds
+            {elapsedTime.toFixed(1)} seconds
           </div>
         </div>
 
