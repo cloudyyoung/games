@@ -59,9 +59,9 @@ export const Play = () => {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto text-zinc-950 dark:text-white">
+      <div className="max-w-2xl mx-auto">
         <div className="h-fit w-full space-y-6">
-          <div className="flex justify-between text-zinc-700">
+          <div className="flex justify-between text-zinc-700 dark:text-zinc-400 tabular-nums">
             <div className="flex flex-row items-center gap-1">
               <span className="material-symbols-sharp">steps</span>
               {steps} steps
