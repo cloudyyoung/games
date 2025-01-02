@@ -12,7 +12,7 @@ export const Play = () => {
   const [slots, setSlots] = useState<SlotsType>([])
   const [satisfied, setSatisfied] = useState(false)
   const [started, setStarted] = useState(false)
-  const { elapsedTime, reset } = useElapsedTime({ isPlaying: started })
+  const { elapsedTime, reset } = useElapsedTime({ isPlaying: started && !satisfied })
   const [steps, setSteps] = useState(0)
 
   useEffect(() => {
