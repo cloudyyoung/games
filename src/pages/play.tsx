@@ -6,7 +6,7 @@ import { SlotsType, SlotType } from "../types/slot"
 import { checkQueensSlots, generateSlots, toggleCrossed } from "../utils/helpers"
 import { SIZE_BOARD, SIZE_N } from "../utils/constants"
 import { Slot } from "../components/slot"
-import { Link } from "../components/link"
+import { Text, TextLink } from "../components/text"
 
 export const Play = () => {
   const [slots, setSlots] = useState<SlotsType>([])
@@ -90,9 +90,9 @@ export const Play = () => {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-px w-full" fill="none"><defs><pattern id=":S2:" patternUnits="userSpaceOnUse" width="16" height="1"><line className="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5" strokeDasharray="2 2" strokeWidth="1.5" strokeOpacity="0.1" strokeLinejoin="round"></line></pattern></defs><rect width="100%" height="100%" fill="url(#:S2:)"></rect></svg>
         </div>
 
-        <div>
-          Don't know how to play? <Link href="/tutorial" className="underline">Check the tutorial</Link>
-        </div>
+        <Text>
+          Don't know how to play? <TextLink href="/tutorial">Check the tutorial</TextLink>
+        </Text>
       </div>
     </>
   )
