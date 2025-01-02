@@ -38,6 +38,12 @@ const Tutorial = () => {
           <ExampleGrid slots={QUEENS_TOUCHING_EXAMPLE} />
         </div>
       </div>
+
+      <Divider soft />
+
+      <Text>
+        Disclaimer: Queens (this website) is an independent product and is not affiliated with, nor has it been authorized, sponsored, or otherwise approved by LinkedIn Corporation. We encourage you to play the original Queens Game on LinkedIn News.
+      </Text>
     </div>
   )
 }
