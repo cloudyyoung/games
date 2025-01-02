@@ -51,13 +51,38 @@ export const EACH_COLUMN_EXAMPLE_CONFIG: ExampleConfigType = {
 };
 
 export const EACH_COLOR_REGION_EXAMPLE_CONFIG: ExampleConfigType = {
+  5: { isCrossed: true },
+  7: { isCrossed: true },
+  9: { isCrossed: true },
+  10: { isCrossed: true },
+  12: { isCrossed: true },
   13: { isQueen: true, isConflicted: true },
+  14: { isCrossed: true },
+  15: { isCrossed: true },
+  16: { isCrossed: true },
+  17: { isCrossed: true },
+  20: { isCrossed: true },
+  21: { isCrossed: true },
   22: { isQueen: true, isConflicted: true },
+  23: { isCrossed: true },
+  24: { isCrossed: true },
 };
 
 export const QUEENS_TOUCHING_EXAMPLE_CONFIG: ExampleConfigType = {
+  2: { isCrossed: true },
+  3: { isCrossed: true },
+  4: { isCrossed: true },
+  6: { isCrossed: true },
+  7: { isCrossed: true },
   8: { isQueen: true, isCrossed: true },
+  9: { isCrossed: true },
+  11: { isCrossed: true },
   12: { isQueen: true, isCrossed: true },
+  13: { isCrossed: true },
+  14: { isCrossed: true },
+  16: { isCrossed: true },
+  17: { isCrossed: true },
+  18: { isCrossed: true },
 };
 
 export const EACH_ROW_EXAMPLE = getExampleGrid(
