@@ -6,10 +6,11 @@ import { REGION_COLORS } from "../utils/constants"
 export interface SlotProps extends SlotType {
   disabled?: boolean
   satisfied?: boolean
+  showCrossed?: boolean
   onClick?: () => void
 }
 
-export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, regionBorder, onClick }: SlotProps) => {
+export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satisfied, regionBorder, showCrossed = true, onClick }: SlotProps) => {
   let icon = null
 
   if (isQueen) {
@@ -19,6 +20,8 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
   }
 
   const regionColor = REGION_COLORS[region - 1]
+  const showIcon = isQueen || (isCrossed && showCrossed)
+  const showPing = isQueen && satisfied
 
   return (
     <div
@@ -37,8 +40,8 @@ export const Slot = ({ isQueen, isCrossed, isConflicted, region, disabled, satis
         (isQueen && isConflicted) && 'text-red-600 dark:text-red-600',
         isQueen && 'text-2xl sm:text-4xl',
       )}>
-        {isQueen && satisfied && <div className="absolute inline-flex animate-ping opacity-40">{icon}</div>}
-        <div className="z-10">{icon}</div>
+        {showPing && <div className="absolute inline-flex animate-ping opacity-40">{icon}</div>}
+        {showIcon && <div className="z-10">{icon}</div>}
       </span>
 
 

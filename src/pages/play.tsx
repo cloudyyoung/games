@@ -7,6 +7,8 @@ import { checkQueensSlots, generateSlots, toggleCrossed } from "../utils/helpers
 import { SIZE_BOARD, SIZE_N } from "../utils/constants"
 import { Slot } from "../components/slot"
 import { Text, TextLink } from "../components/text"
+import { Switch } from "../components/switch"
+import clsx from "clsx"
 
 export const Play = () => {
   const [slots, setSlots] = useState<SlotsType>([])
@@ -14,6 +16,9 @@ export const Play = () => {
   const [started, setStarted] = useState(false)
   const { elapsedTime, reset } = useElapsedTime({ isPlaying: started && !satisfied })
   const [steps, setSteps] = useState(0)
+
+  const [timeAndSteps, setTimeAndSteps] = useState(true)
+  const [marker, setMarker] = useState(true)
 
   useEffect(() => {
     const slots = generateSlots()
@@ -57,8 +62,8 @@ export const Play = () => {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex justify-between text-zinc-700 dark:text-zinc-400 tabular-nums">
-          <div className="flex flex-row items-center gap-1">
+        <div className={clsx("flex justify-between text-zinc-700 dark:text-zinc-400 tabular-nums", !timeAndSteps && "opacity-0")}>
+          <div className={"flex flex-row items-center gap-1"}>
             <span className="material-symbols-sharp">steps</span>
             {steps} steps
           </div>
@@ -74,11 +79,20 @@ export const Play = () => {
               <div className={`grid gap-0`} style={{ gridTemplateColumns: `repeat(${SIZE_N}, minmax(0, 1fr)` }}>
                 {
                   slots.map((slot) => (
-                    <Slot {...slot} satisfied={satisfied} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} />
+                    <Slot {...slot} satisfied={satisfied} onClick={() => onClick(slot)} key={slot.index} disabled={satisfied} showCrossed={marker} />
                   ))
                 }
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <p>Marker</p> <Switch checked={marker} onChange={setMarker} />
+          </div>
+          <div className="flex items-center gap-2">
+            <p>Time & Steps</p> <Switch checked={timeAndSteps} onChange={setTimeAndSteps} />
           </div>
         </div>
 
