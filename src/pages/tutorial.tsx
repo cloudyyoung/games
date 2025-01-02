@@ -12,7 +12,7 @@ const Tutorial = () => {
       <Heading>How to play</Heading>
       <Text>
         Place the <Queen /> on the board so that no two <Queen /> can attack each other.
-        This means that no two <Queen />s can be in the same row, column, or color region.
+        This means that no two <Queen /> can be in the same row, column, or color region.
       </Text>
 
       <Divider soft />
