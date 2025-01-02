@@ -3,7 +3,7 @@ import { Navbar, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer, NavbarDiv
 export const AppNavbar = () => {
   return (
     <Navbar>
-      <NavbarLabel className="uppercase font-extrabold text-xl">Queens</NavbarLabel>
+      <NavbarLabel className="font-extrabold text-xl">Queens</NavbarLabel>
       <NavbarDivider className="max-lg:hidden" />
       <NavbarSection className="max-lg:hidden">
         <NavbarItem href='/'>Play</NavbarItem>
