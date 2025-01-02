@@ -82,7 +82,7 @@ export const Play = () => {
 
         <div className="flex justify-center space-x-4">
           {!satisfied && <Button onClick={onReset} outline>Reset Board</Button>}
-          {satisfied && <Button onClick={onNewGame}>New Game</Button>}
+          {satisfied && <Button onClick={onNewGame}>New Game <span className="material-symbols-sharp -mr-1">arrow_forward</span></Button>}
         </div>
 
         {/* <div className="flex justify-center">
