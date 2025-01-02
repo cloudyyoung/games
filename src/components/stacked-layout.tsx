@@ -13,7 +13,6 @@ function OpenMenuIcon() {
 function CloseMenuIcon() {
   return (
     <span className='material-symbols-sharp'>close</span>
-
   )
 }
 
