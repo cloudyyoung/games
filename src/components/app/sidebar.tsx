@@ -4,7 +4,7 @@ export const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="uppercase font-extrabold text-xl px-2 pt-4">Queens</div>
+        <div className="font-extrabold text-xl px-2 pt-4">Queens</div>
       </SidebarHeader>
       <SidebarBody>
         <SidebarSection>
