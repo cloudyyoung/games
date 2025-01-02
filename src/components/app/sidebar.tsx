@@ -9,6 +9,7 @@ export const AppSidebar = () => {
       <SidebarBody>
         <SidebarSection>
           <SidebarItem href='/'>Play</SidebarItem>
+          <SidebarItem href='/tutorial'>Tutorial</SidebarItem>
         </SidebarSection>
       </SidebarBody>
     </Sidebar>
