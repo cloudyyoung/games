@@ -1,22 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import Play from "./pages/play";
-import { StackedLayout } from "./components/stacked-layout";
-import { AppNavbar } from "./components/app/navbar";
-import { AppSidebar } from "./components/app/sidebar";
-import Tutorial from "./pages/tutorial";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { routes } from './queens/routes';
+import AppLayout from "./components/app/layout";
 
 export const App = () => {
 
+  const router = createBrowserRouter([
+    {
+      path: "queens",
+      children: routes,
+      element: <AppLayout routes={routes} />,
+    }
+  ]);
+
   return (
     <>
-      <BrowserRouter>
-        <StackedLayout navbar={<AppNavbar />} sidebar={<AppSidebar />}>
-          <Routes>
-            <Route path="/" element={<Play />} />
-            <Route path="/tutorial" element={<Tutorial />} />
-          </Routes>
-        </StackedLayout>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </>
   )
 }

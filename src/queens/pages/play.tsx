@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useElapsedTime } from 'use-elapsed-time'
 
-import { Button } from "../components/button"
+import { Button } from "../../components/button"
 import { SlotsType, SlotType } from "../types/slot"
 import { checkQueensSlots, generateSlots, toggleCrossed } from "../utils/helpers"
 import { SIZE_BOARD, SIZE_N } from "../utils/constants"
 import { Slot } from "../components/slot"
-import { Text, TextLink } from "../components/text"
-import { Switch } from "../components/switch"
+import { Text, TextLink } from "../../components/text"
+import { Switch } from "../../components/switch"
 import clsx from "clsx"
 
 export const Play = () => {
@@ -106,7 +106,7 @@ export const Play = () => {
         </div>
 
         <Text>
-          Don't know how to play? <TextLink href="/tutorial">Check the tutorial</TextLink>
+          Don't know how to play? <TextLink href="tutorial">Check the tutorial</TextLink>
         </Text>
       </div>
     </>

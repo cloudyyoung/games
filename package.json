@@ -1,7 +1,7 @@
 {
-  "name": "queens",
+  "name": "games",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@hookstate/core": "^4.0.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
     "lodash": "^4.17.21",
