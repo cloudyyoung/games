@@ -1,36 +1,24 @@
-import { Navbar, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer, NavbarDivider } from "../../components/navbar"
-import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownLabel, DropdownMenu } from "../dropdown"
+import { Navbar, NavbarItem, NavbarSection, NavbarSpacer, NavbarDivider } from "../../components/navbar"
+import { RouteObjectExtended } from "../../types/route"
+import { GamesDropdown } from "./dropdown"
 
-export const AppNavbar = () => {
+export interface AppNavbarProps {
+  routes: RouteObjectExtended[]
+}
+
+export const AppNavbar = ({ routes }: AppNavbarProps) => {
   return (
     <Navbar>
-      <Dropdown>
-        <DropdownButton as={NavbarItem} className="max-lg:hidden">
-          <NavbarLabel className="font-extrabold text-xl">Queens</NavbarLabel>
-          <span className="material-symbols-sharp text-lg -ml-1 font-extrabold">expand_all</span>
-        </DropdownButton>
-        <GamesDropdownMenu />
-      </Dropdown>
+      <GamesDropdown />
       <NavbarDivider className="max-lg:hidden" />
       <NavbarSection className="max-lg:hidden">
-        <NavbarItem href=''>Play</NavbarItem>
-        <NavbarItem href='tutorial'>Tutorial</NavbarItem>
+        {
+          routes.map((route) => (
+            <NavbarItem key={route.id} href={route.path}>{route.title}</NavbarItem>
+          ))
+        }
       </NavbarSection>
       <NavbarSpacer />
     </Navbar>
-  )
-}
-
-export const GamesDropdownMenu = () => {
-  return (
-    <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
-      <DropdownItem href="/">
-        <DropdownLabel>Home</DropdownLabel>
-      </DropdownItem>
-      <DropdownDivider />
-      <DropdownItem href="/queens">
-        <DropdownLabel>Queens</DropdownLabel>
-      </DropdownItem>
-    </DropdownMenu>
   )
 }
