@@ -1,11 +1,6 @@
 import { Sidebar, SidebarBody, SidebarHeader, SidebarItem, SidebarSection } from "../../components/sidebar"
-import { RouteObjectExtended } from "../../types/route"
 
-export interface AppSidebarProps {
-  routes: RouteObjectExtended[]
-}
-
-export const AppSidebar = ({ routes }: AppSidebarProps) => {
+export const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
@@ -13,11 +8,8 @@ export const AppSidebar = ({ routes }: AppSidebarProps) => {
       </SidebarHeader>
       <SidebarBody>
         <SidebarSection>
-          {
-            routes.map((route) => (
-              <SidebarItem key={route.id} href={route.path}>{route.title}</SidebarItem>
-            ))
-          }
+          <SidebarItem href='/'>Play</SidebarItem>
+          <SidebarItem href='/tutorial'>Tutorial</SidebarItem>
         </SidebarSection>
       </SidebarBody>
     </Sidebar>

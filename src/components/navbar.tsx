@@ -4,7 +4,6 @@ import * as Headless from '@headlessui/react'
 import clsx from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef, useId } from 'react'
-import { useLocation, useResolvedPath } from 'react-router'
 import { TouchTarget } from './button'
 import { Link } from './link'
 
@@ -60,15 +59,6 @@ export const NavbarItem = forwardRef(function NavbarItem(
     'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white',
     'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white'
   )
-
-  const hasHref = 'href' in props
-  const href = (hasHref ? props.href : undefined) ?? ""
-  const location = useLocation();
-  const resolved = useResolvedPath(href)
-
-  if (current === undefined && hasHref) {
-    current = location.pathname === resolved.pathname
-  }
 
   return (
     <span className={clsx(className, 'relative')}>

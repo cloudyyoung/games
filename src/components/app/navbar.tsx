@@ -1,22 +1,13 @@
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer, NavbarDivider } from "../../components/navbar"
-import { RouteObjectExtended } from "../../types/route"
-import { GamesDropdown } from "./dropdown"
+import { Navbar, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer, NavbarDivider } from "../../components/navbar"
 
-export interface AppNavbarProps {
-  routes: RouteObjectExtended[]
-}
-
-export const AppNavbar = ({ routes }: AppNavbarProps) => {
+export const AppNavbar = () => {
   return (
     <Navbar>
-      <GamesDropdown />
+      <NavbarLabel className="font-extrabold text-xl">Queens</NavbarLabel>
       <NavbarDivider className="max-lg:hidden" />
       <NavbarSection className="max-lg:hidden">
-        {
-          routes.map((route) => (
-            <NavbarItem key={route.id} href={route.path}>{route.title}</NavbarItem>
-          ))
-        }
+        <NavbarItem href='/'>Play</NavbarItem>
+        <NavbarItem href='/tutorial'>Tutorial</NavbarItem>
       </NavbarSection>
       <NavbarSpacer />
     </Navbar>

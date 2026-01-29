@@ -109,7 +109,7 @@ export function ListboxOption<T>({
   Headless.ListboxOptionProps<'div', T>,
   'as' | 'className'
 >) {
-  const sharedClasses = clsx(
+  let sharedClasses = clsx(
     // Base
     'flex min-w-0 items-center',
     // Icons

@@ -1,10 +1,10 @@
-import { Text } from "../../components/text"
-import { Heading } from "../../components/heading"
+import { Text } from "../components/text"
+import { Heading } from "../components/heading"
 
 import Queen from "../components/queen"
 import ExampleGrid from "../components/example"
 import { EACH_COLOR_REGION_EXAMPLE, EACH_COLUMN_EXAMPLE, EACH_ROW_EXAMPLE, QUEENS_TOUCHING_EXAMPLE } from "../utils/examples"
-import { Divider } from "../../components/divider"
+import { Divider } from "../components/divider"
 
 const Tutorial = () => {
   return (
