@@ -1,6 +1,5 @@
 import * as Headless from '@headlessui/react'
 import React, { forwardRef } from 'react'
-import { NavLink } from "react-router";
 
 export const Link = forwardRef(function Link(
   props: { href: string } & React.ComponentPropsWithoutRef<'a'>,
@@ -10,7 +9,7 @@ export const Link = forwardRef(function Link(
 
   return (
     <Headless.DataInteractive>
-      <NavLink to={href} {...rest} ref={ref} />
+      <a href={href} {...rest} ref={ref} />
     </Headless.DataInteractive>
   )
 })

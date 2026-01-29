@@ -1,22 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router";
 import Play from "./pages/play";
 import { StackedLayout } from "./components/stacked-layout";
 import { AppNavbar } from "./components/app/navbar";
 import { AppSidebar } from "./components/app/sidebar";
 import Tutorial from "./pages/tutorial";
+import { useState } from "react";
 
 export const App = () => {
+  const [page, setPage] = useState<"play" | "tutorial">("play");
 
   return (
     <>
-      <BrowserRouter>
-        <StackedLayout navbar={<AppNavbar />} sidebar={<AppSidebar />}>
-          <Routes>
-            <Route path="/" element={<Play />} />
-            <Route path="/tutorial" element={<Tutorial />} />
-          </Routes>
-        </StackedLayout>
-      </BrowserRouter>
+      <StackedLayout navbar={<AppNavbar setPage={setPage} />} sidebar={<AppSidebar />}>
+        {page === "play" && <Play />}
+        {page === "tutorial" && <Tutorial />}
+      </StackedLayout>
     </>
   )
 }
